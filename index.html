@@ -117,7 +117,28 @@
                 <button>View</button>
             </article>
         </section>
+        <section class="section-jobs">
+            <h2>Latest job listings</h2>
 
+            <div class="jobs-filter">
+                <input 
+                    type="text" 
+                    id="job-search" 
+                    placeholder="Filter jobs by title or company..."
+                >
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="Tech">Tech</button>
+                    <button class="filter-btn" data-category="Finance">Finance</button>
+                    <button class="filter-btn" data-category="Marketing">Marketing</button>
+                    <button class="filter-btn" data-category="Healthcare">Healthcare</button>
+                </div>
+            </div>
+
+            <div class="jobs-grid" id="jobs-grid">
+                <!-- JS will render job cards here -->
+            </div>
+        </section>
         <section class="section-career">
             <h2>Boost your career</h2>
             <article class="career-card-large">
