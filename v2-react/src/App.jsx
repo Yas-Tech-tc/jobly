@@ -1,9 +1,12 @@
+import JobCard from './components/JobCard'
+import jobs from './data/jobs'
+
 function App() {
-  return (
-    <div>
-      <h1>Jobly</h1>
-    </div>
-  )
+    return (
+        <div>
+            <JobCard job={jobs[0]} />
+        </div>
+    )
 }
 
 export default App
