@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function JobCard({ job }) {
     return (
         <article className="job-card">
@@ -9,7 +11,9 @@ function JobCard({ job }) {
             <p className="location">📍 {job.location}</p>
             <p className="salary">{job.salary}</p>
             {job.remote && <span className="remote-badge">Remote</span>}
-            <button className="apply-btn">Apply now</button>
+            <Link to={`/jobs/${job.id}`} className="apply-btn">
+                View details
+            </Link>
         </article>
     )
 }
