@@ -1,19 +1,35 @@
 import { useParams, Link } from 'react-router-dom'
-import jobs from '../data/jobs'
+import { useState, useEffect } from 'react'
 
 function JobDetailPage() {
     const { id } = useParams()
+    const [job, setJob] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
-    const job = jobs.find((j) => j.id === Number(id))
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_API_URL}/api/jobs/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Job not found')
+                return res.json()
+            })
+            .then(data => {
+                setJob(data)
+                setLoading(false)
+            })
+            .catch(err => {
+                setError(err.message)
+                setLoading(false)
+            })
+    }, [id])
 
-    if (!job) {
-        return (
-            <div className="not-found">
-                <h2>Job not found</h2>
-                <Link to="/" className="back-link">← Back to all jobs</Link>
-            </div>
-        )
-    }
+    if (loading) return <p className="no-results">Loading...</p>
+    if (error) return (
+        <div className="not-found">
+            <h2>{error}</h2>
+            <Link to="/" className="back-link">← Back to all jobs</Link>
+        </div>
+    )
 
     return (
         <div>
@@ -59,7 +75,6 @@ function JobDetailPage() {
                                 on exciting projects and collaborate with a
                                 world-class team.
                             </p>
-
                             <h2>Requirements</h2>
                             <ul>
                                 <li>3+ years of experience in a similar role</li>
@@ -67,7 +82,6 @@ function JobDetailPage() {
                                 <li>Experience working in an agile team</li>
                                 <li>Passion for building great products</li>
                             </ul>
-
                             <h2>What we offer</h2>
                             <ul>
                                 <li>Competitive salary: {job.salary}</li>
@@ -111,7 +125,7 @@ function JobDetailPage() {
                                     <textarea
                                         id="message"
                                         rows="4"
-                                        placeholder="Tell us a bit about yourself..."
+                                        placeholder="Tell us about yourself..."
                                     />
                                 </div>
                                 <button type="submit" className="apply-btn">

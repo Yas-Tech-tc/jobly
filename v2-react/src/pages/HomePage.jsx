@@ -1,21 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import JobList from '../components/JobList'
 import FilterBar from '../components/FilterBar'
-import jobs from '../data/jobs'
 
 function HomePage() {
+    const [jobs, setJobs] = useState([])
     const [activeCategory, setActiveCategory] = useState('all')
     const [searchQuery, setSearchQuery] = useState('')
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
-    const filteredJobs = jobs.filter((job) => {
-        const categoryMatch =
-            activeCategory === 'all' || job.category === activeCategory
-        const searchMatch =
-            job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            job.company.toLowerCase().includes(searchQuery.toLowerCase())
-        return categoryMatch && searchMatch
-    })
+    useEffect(() => {
+        const params = new URLSearchParams()
+        if (activeCategory !== 'all') params.append('category', activeCategory)
+        if (searchQuery) params.append('search', searchQuery)
+
+        const url = `${import.meta.env.VITE_API_URL}/api/jobs?${params}`
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                setJobs(data)
+                setLoading(false)
+            })
+            .catch(err => {
+                setError('Failed to load jobs. Is the server running?')
+                setLoading(false)
+            })
+    }, [activeCategory, searchQuery])
 
     return (
         <div>
@@ -61,7 +73,10 @@ function HomePage() {
                         onCategoryChange={setActiveCategory}
                         onSearchChange={setSearchQuery}
                     />
-                    <JobList jobs={filteredJobs} />
+
+                    {loading && <p className="no-results">Loading jobs...</p>}
+                    {error && <p className="no-results">{error}</p>}
+                    {!loading && !error && <JobList jobs={jobs} />}
                 </section>
             </main>
 
