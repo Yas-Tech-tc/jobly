@@ -11,7 +11,7 @@ function JobCard({ job }) {
             <p className="location">📍 {job.location}</p>
             <p className="salary">{job.salary}</p>
             {job.remote && <span className="remote-badge">Remote</span>}
-            <Link to={`/jobs/${job.id}`} className="apply-btn">
+            <Link to={`/jobs/${job._id}`} className="apply-btn">
                 View details
             </Link>
         </article>
