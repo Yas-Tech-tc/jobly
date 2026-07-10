@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import JobList from '../components/JobList'
 import FilterBar from '../components/FilterBar'
+import { useAuth } from '../context/AuthContext'
 
 function HomePage() {
     const [jobs, setJobs] = useState([])
@@ -9,6 +10,14 @@ function HomePage() {
     const [searchQuery, setSearchQuery] = useState('')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+
+    const { user, logout } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout()
+        navigate('/')
+    }
 
     useEffect(() => {
         const params = new URLSearchParams()
@@ -40,11 +49,25 @@ function HomePage() {
                     <ul className="nav-links">
                         <li><Link to="/">Home</Link></li>
                         <li><a href="#explore">Explore</a></li>
-                        <li><a href="#post-a-job">Post a job</a></li>
+                        <li><Link to="/post-job">Post a job</Link></li>
                         <li><a href="#search">Search</a></li>
                     </ul>
                 </nav>
-                <button className="btn btn-login">Login</button>
+                {user ? (
+                    <div className="user-menu">
+                        <span>Hi, {user.name}</span>
+                        <button
+                            className="btn btn-login"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                ) : (
+                    <Link to="/login" className="btn btn-login">
+                        Login
+                    </Link>
+                )}
             </header>
 
             <main>
@@ -73,10 +96,15 @@ function HomePage() {
                         onCategoryChange={setActiveCategory}
                         onSearchChange={setSearchQuery}
                     />
-
-                    {loading && <p className="no-results">Loading jobs...</p>}
-                    {error && <p className="no-results">{error}</p>}
-                    {!loading && !error && <JobList jobs={jobs} />}
+                    {loading && (
+                        <p className="no-results">Loading jobs...</p>
+                    )}
+                    {error && (
+                        <p className="no-results">{error}</p>
+                    )}
+                    {!loading && !error && (
+                        <JobList jobs={jobs} />
+                    )}
                 </section>
             </main>
 
