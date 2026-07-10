@@ -32,7 +32,12 @@ const jobSchema = new mongoose.Schema(
         description: {
             type: String,
             default: ''
-        }
+        },
+        postedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: false
+        },
     },
     {
         timestamps: true

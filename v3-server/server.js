@@ -54,11 +54,25 @@ app.get('/api/jobs/:id', async (req, res) => {
     }
 })
 
-app.post('/api/jobs', async (req, res) => {
+const authMiddleware = require('./middleware/auth')
+
+app.post('/api/jobs', authMiddleware, async (req, res) => {
     try {
-        const job = new Job(req.body)
+        // Only employers can post jobs
+        if (req.user.role !== 'employer') {
+            return res.status(403).json({
+                message: 'Only employers can post jobs'
+            })
+        }
+
+        const job = new Job({
+            ...req.body,
+            postedBy: req.user.userId
+        })
+
         const savedJob = await job.save()
         res.status(201).json(savedJob)
+
     } catch (error) {
         res.status(400).json({ message: 'Invalid data', error: error.message })
     }
