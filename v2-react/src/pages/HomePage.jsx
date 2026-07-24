@@ -8,6 +8,8 @@ function HomePage() {
     const [jobs, setJobs] = useState([])
     const [activeCategory, setActiveCategory] = useState('all')
     const [searchQuery, setSearchQuery] = useState('')
+    const [heroSearch, setHeroSearch] = useState('')
+    const [heroLocation, setHeroLocation] = useState('')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -19,7 +21,16 @@ function HomePage() {
         navigate('/')
     }
 
+    const handleHeroSearch = (e) => {
+        e.preventDefault()
+        setSearchQuery(heroSearch)
+        document.getElementById('job-listings').scrollIntoView({
+            behavior: 'smooth'
+        })
+    }
+
     useEffect(() => {
+        setLoading(true)
         const params = new URLSearchParams()
         if (activeCategory !== 'all') params.append('category', activeCategory)
         if (searchQuery) params.append('search', searchQuery)
@@ -50,7 +61,19 @@ function HomePage() {
                         <li><Link to="/">Home</Link></li>
                         <li><a href="#explore">Explore</a></li>
                         <li><Link to="/post-job">Post a job</Link></li>
-                        <li><a href="#search">Search</a></li>
+                        <li>
+                            <a
+                                href="#job-listings"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    document
+                                        .getElementById('job-listings')
+                                        .scrollIntoView({ behavior: 'smooth' })
+                                }}
+                            >
+                                Search
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 {user ? (
@@ -80,15 +103,38 @@ function HomePage() {
                         Work with the best companies,
                         hire the experienced professionals
                     </p>
-                    <form className="search-form">
-                        <input type="text" placeholder="Search for jobs" />
-                        <input type="text" placeholder="Enter location" />
-                        <button type="button">Search</button>
+                    <form
+                        className="search-form"
+                        onSubmit={handleHeroSearch}
+                    >
+                        <input
+                            type="text"
+                            placeholder="Search for jobs"
+                            value={heroSearch}
+                            onChange={(e) => setHeroSearch(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Enter location"
+                            value={heroLocation}
+                            onChange={(e) => setHeroLocation(e.target.value)}
+                        />
+                        <button type="submit">Search</button>
                     </form>
-                    <a href="">advanced search</a>
+                    <a
+                        href="#job-listings"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            document
+                                .getElementById('job-listings')
+                                .scrollIntoView({ behavior: 'smooth' })
+                        }}
+                    >
+                        advanced search
+                    </a>
                 </section>
 
-                <section className="section-jobs">
+                <section className="section-jobs" id="job-listings">
                     <h2>Latest job listings</h2>
                     <FilterBar
                         activeCategory={activeCategory}
