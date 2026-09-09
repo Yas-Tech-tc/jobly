@@ -2,20 +2,20 @@
 
 A full-stack job board application where employers post jobs and candidates browse, search, filter, and apply. Built with React, Node.js, Express, MongoDB, and JWT authentication.
 
-🔗 **Live demo:** *(coming soon)*
+**Live demo:** *(coming soon)*
 
 ---
 
 ## Features
 
-- 🔍 Real-time job search by title or company
-- 🏷️ Filter jobs by category (Tech, Finance, Marketing, Healthcare)
-- 🔐 User authentication with JWT — signup and login
-- 👔 Role-based access — employers and job seekers have separate permissions
-- 📝 Employers can post new job listings through a protected form
-- 📄 Job detail page with full description and application form
-- 📱 Fully responsive — works on desktop and mobile
-- ☁️ Data persists in MongoDB Atlas
+-  Real-time job search by title or company
+-  Filter jobs by category (Tech, Finance, Marketing, Healthcare)
+-  User authentication with JWT — signup and login
+-  Role-based access — employers and job seekers have separate permissions
+-  Employers can post new job listings through a protected form
+-  Job detail page with full description and application form
+-  Fully responsive — works on desktop and mobile
+-  Data persists in MongoDB Atlas
 
 ---
 
@@ -44,8 +44,8 @@ A full-stack job board application where employers post jobs and candidates brow
 | Technology | Purpose |
 |---|---|
 | MongoDB Atlas | Cloud database |
-| Vercel | Frontend hosting *(coming soon)* |
-| Railway | Backend hosting *(coming soon)* |
+| Vercel | Frontend hosting  |
+| Railway | Backend hosting  |
 
 ---
 
@@ -103,7 +103,7 @@ jobly/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/jobly.git
+git clone https://github.com/Yas-Tech-tc/jobly.git
 cd jobly
 ```
 
