@@ -2,7 +2,7 @@
 
 A full-stack job board application where employers post jobs and candidates browse, search, filter, and apply. Built with React, Node.js, Express, MongoDB, and JWT authentication.
 
-**Live demo:** *(coming soon)*
+**Live demo:** [jobly-ruby.vercel.app](https://jobly-ruby.vercel.app)
 
 ---
 
